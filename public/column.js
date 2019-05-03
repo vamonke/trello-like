@@ -18,24 +18,30 @@ class Column extends HTMLElement {
         padding: 8px;
       }
     </style>
-    <section>
-      <h3>${column.title}</h3>
-      <div class="cards-container"></div>
-    </section>`;
+    <section></section>`;
+
+    let section = this.root.querySelector('section');
+    
+    // Append column title
+    let columnTitle = document.createElement('column-title');
+    columnTitle.columnTitle = column;
+    section.appendChild(columnTitle);
 
     // Append cards
-    let cardsContainer = this.root.querySelector('.cards-container');
+    let cardsContainer = document.createElement('div');
+    cardsContainer.className = 'cards-container';
     if (column.cards) {
       column.cards.forEach(card => {
-        const cardElement = document.createElement('card-element');
+        let cardElement = document.createElement('card-element');
         cardElement.card = card;
         cardsContainer.appendChild(cardElement);
       })
     }
+    section.appendChild(cardsContainer);
+
 
     // Append new card form
-    let section = this.root.querySelector('section');
-    const newCardElement = document.createElement('new-card');
+    let newCardElement = document.createElement('new-card');
     newCardElement.newCard = { columnId: column.id, addCard: this.addCard };
     section.appendChild(newCardElement);
   }

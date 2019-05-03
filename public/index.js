@@ -2,6 +2,7 @@ import '/column.js';
 import '/card.js';
 import '/newCard.js';
 import '/newColumn.js';
+import '/columnTitle.js';
 
 window.addEventListener('load', () => {
   fetchColumns();
