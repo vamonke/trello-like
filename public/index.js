@@ -14,7 +14,11 @@ async function attachCards(columns) {
   // Match cards to respective columns
   cards.forEach(card => {
     let parentColumn = columns.find(column => column.id == card.columnId);
-    parentColumn.cards.push(card);
+    if (parentColumn) {
+      parentColumn.cards.push(card);
+    } else {
+      console.error(card);
+    }
   });
 }
 
