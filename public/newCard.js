@@ -5,7 +5,7 @@ class NewCard extends HTMLElement {
   }
   set newCard(newCard) {
     // Bind methods
-    this.addCard = newCard.addCard;
+    this.addCard = this.addCard.bind(this);
     this.toggleForm = this.toggleForm.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     
@@ -45,6 +45,30 @@ class NewCard extends HTMLElement {
     form.style.display = form.style.display === "none" ? "block" : "none";
     const showButton = this.root.querySelector('.showForm');
     showButton.style.display = showButton.style.display === "none" ? "block" : "none";
+  }
+
+  async addCard(title, description, columnId) { // Add card to column
+    // POST new card to server
+    const res = await fetch('http://localhost:3000/cards', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ title, description, columnId })
+    });
+    if (res.ok) {
+      // Append newly created card
+      const createdCard = await res.json();
+      const cardElement = document.createElement('card-element');
+      cardElement.card = createdCard;
+      let cardsContainer = this.parentNode.querySelector('.cards-container');
+      cardsContainer.appendChild(cardElement);
+      // let parentDiv = this.parentNode;
+      // parentDiv.insertBefore(cardElement, this);
+    } else {
+      alert("Error ocurred");
+    }
   }
 
   async handleSubmit(e) { // On submission of form

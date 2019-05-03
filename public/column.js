@@ -4,9 +4,6 @@ class Column extends HTMLElement {
     this.root = this.attachShadow({ mode: "open" });
   }
   set column(column) {
-    // Bind methods
-    this.addCard = this.addCard.bind(this);
-
     this.root.innerHTML = `
     <style>
       section {
@@ -42,30 +39,8 @@ class Column extends HTMLElement {
 
     // Append new card form
     let newCardElement = document.createElement('new-card');
-    newCardElement.newCard = { columnId: column.id, addCard: this.addCard };
+    newCardElement.newCard = { columnId: column.id };
     section.appendChild(newCardElement);
-  }
-
-  async addCard(title, description, columnId) { // Add card to column
-    // POST new card to server
-    const res = await fetch('http://localhost:3000/cards', {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ title, description, columnId })
-    });
-    if (res.ok) {
-      // Append newly created card
-      const createdCard = await res.json();
-      const cardElement = document.createElement('card-element');
-      cardElement.card = createdCard;
-      let cardsContainer = this.root.querySelector('.cards-container');
-      cardsContainer.appendChild(cardElement);
-    } else {
-      alert("Error ocurred");
-    }
   }
 }
 
