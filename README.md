@@ -7,7 +7,7 @@ Go to http://localhost:3000/ to view the web application.
 ## Goals
 
 - [x] display all columns with all cards
-- [ ] create a new card
+- [x] create a new card
 - [ ] modify a card
 - [ ] delete a card
 - [ ] add a column

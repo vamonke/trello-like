@@ -4,7 +4,9 @@ class Column extends HTMLElement {
     this.root = this.attachShadow({ mode: "open" });
   }
   set column(column) {
-    console.log(this.root);
+    // Bind methods
+    this.addCard = this.addCard.bind(this);
+
     this.root.innerHTML = `
     <style>
     section {
@@ -18,14 +20,44 @@ class Column extends HTMLElement {
     </style>
     <section>
       <h3>${column.title}</h3>
+      <div class="cards-container"></div>
     </section>`;
 
-    // Append cards to section
+    // Append cards
+    let cardsContainer = this.root.querySelector('.cards-container');
     column.cards.forEach(card => {
-      const el = document.createElement('card-element');
-      el.card = card;
-      this.root.querySelector('section').appendChild(el);
+      const cardElement = document.createElement('card-element');
+      cardElement.card = card;
+      cardsContainer.appendChild(cardElement);
     })
+
+    // Append new card form
+    let section = this.root.querySelector('section');
+    const newCardElement = document.createElement('new-card');
+    newCardElement.newCard = { columnId: column.id, addCard: this.addCard };
+    section.appendChild(newCardElement);
+  }
+
+  async addCard(title, description, columnId) { // Add card to column
+    // POST new card to server
+    const res = await fetch('http://localhost:3000/cards', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ title, description, columnId })
+    });
+    if (res.ok) {
+      // Append newly created card
+      const createdCard = await res.json();
+      const cardElement = document.createElement('card-element');
+      cardElement.card = createdCard;
+      let cardsContainer = this.root.querySelector('.cards-container');
+      cardsContainer.appendChild(cardElement);
+    } else {
+      alert("Error ocurred");
+    }
   }
 }
 

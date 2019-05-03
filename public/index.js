@@ -1,5 +1,6 @@
 import '/column.js';
 import '/card.js';
+import '/newCard.js';
 
 window.addEventListener('load', () => {
   fetchColumns();

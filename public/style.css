@@ -1,3 +1,7 @@
+* {
+  box-sizing: border-box;
+}
+
 column-element {
   white-space: nowrap;
 }
