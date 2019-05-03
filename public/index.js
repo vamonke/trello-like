@@ -1,6 +1,7 @@
 import '/column.js';
 import '/card.js';
 import '/newCard.js';
+import '/newColumn.js';
 
 window.addEventListener('load', () => {
   fetchColumns();
@@ -41,4 +42,8 @@ async function fetchColumns() {
     main.appendChild(el);
     return el;
   });
+
+  let addColumnElement = document.createElement('new-column');
+  addColumnElement.newColumn = {};
+  main.appendChild(addColumnElement);
 }

@@ -2,6 +2,6 @@
   box-sizing: border-box;
 }
 
-column-element {
+column-element, new-column {
   white-space: nowrap;
 }

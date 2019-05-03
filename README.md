@@ -10,7 +10,7 @@ Go to http://localhost:3000/ to view the web application.
 - [x] create a new card
 - [x] modify a card
 - [x] delete a card
-- [ ] add a column
+- [x] add a column
 - [ ] modify a column
 - [ ] delete a column
 - [ ] search for any keywords presents on one or multiple cards. The view should update without reloading the whole page

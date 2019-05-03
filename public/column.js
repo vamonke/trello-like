@@ -9,14 +9,14 @@ class Column extends HTMLElement {
 
     this.root.innerHTML = `
     <style>
-    section {
-      white-space: initial;
-      background-color: #DDDDDD;
-      display: inline-block;
-      vertical-align: top;
-      width: 400px;
-      padding: 8px;
-    }
+      section {
+        white-space: initial;
+        background-color: #DDDDDD;
+        display: inline-block;
+        vertical-align: top;
+        width: 300px;
+        padding: 8px;
+      }
     </style>
     <section>
       <h3>${column.title}</h3>
@@ -25,11 +25,13 @@ class Column extends HTMLElement {
 
     // Append cards
     let cardsContainer = this.root.querySelector('.cards-container');
-    column.cards.forEach(card => {
-      const cardElement = document.createElement('card-element');
-      cardElement.card = card;
-      cardsContainer.appendChild(cardElement);
-    })
+    if (column.cards) {
+      column.cards.forEach(card => {
+        const cardElement = document.createElement('card-element');
+        cardElement.card = card;
+        cardsContainer.appendChild(cardElement);
+      })
+    }
 
     // Append new card form
     let section = this.root.querySelector('section');
