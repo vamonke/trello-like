@@ -8,6 +8,7 @@ class Card extends HTMLElement {
     this.toggleForm = this.toggleForm.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.editCard = this.editCard.bind(this);
+    this.deleteCard = this.deleteCard.bind(this);
 
     this.root.innerHTML = `
     <style>
@@ -31,9 +32,10 @@ class Card extends HTMLElement {
     textarea {
       min-height: 80px;
     }
-    .editButton {
+    .deleteButton, .editButton {
       cursor: pointer;
       display: inline-block;
+      margin-left: 10px;
       float: right;
     }
     </style>
@@ -41,6 +43,7 @@ class Card extends HTMLElement {
       <h3>${card.title}</h3>
       <p>${card.description}</p>
       <div class="editButton">Edit</div>
+      <div class="deleteButton">Delete</div>
     </article>
     <form style="display: none">
       <input type="hidden" value="${card.id}" name="id">
@@ -96,14 +99,34 @@ class Card extends HTMLElement {
     descriptionInput.value = '';
   }
 
+  async deleteCard(e) {
+    e.preventDefault();
+    const id = this.root.querySelector('input[name="id"]').value;
+
+    // DELETE card from server
+    const res = await fetch('http://localhost:3000/cards/' + id, { method: 'DELETE' });
+
+    if (res.ok) {
+      this.style.display = "none"; // Hide card element
+    } else {
+      alert("Error ocurred");
+    }
+  }
+
   connectedCallback() { // Add event listeners once components are connected to DOM
-    const showButton = this.root.querySelector('.editButton');
+    // Toggle form listener
+    const editButton = this.root.querySelector('.editButton');
     const cancelButton = this.root.querySelector('input[value="Cancel"]');
-    showButton.addEventListener('click', this.toggleForm, false);
+    editButton.addEventListener('click', this.toggleForm, false);
     cancelButton.addEventListener('click', this.toggleForm, false);
 
+    // Submit form listener
     const form = this.root.querySelector('form');
     form.addEventListener('submit', this.handleSubmit, false);
+
+    // Delete card listener
+    const deleteButton = this.root.querySelector('.deleteButton');
+    deleteButton.addEventListener('click', this.deleteCard, false);
   }
 }
 
