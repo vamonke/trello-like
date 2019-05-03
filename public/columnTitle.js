@@ -7,9 +7,13 @@ class columnTitle extends HTMLElement {
     // Bind methods
     this.toggleForm = this.toggleForm.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.deleteColumn = this.deleteColumn.bind(this);
     
     this.root.innerHTML = `
     <style>
+    .title {
+      overflow: auto;
+    }
     input[type="text"] {
       box-sizing: border-box;
       margin-bottom: 8px;
@@ -19,10 +23,9 @@ class columnTitle extends HTMLElement {
     textarea {
       min-height: 80px;
     }
-    h3, .edit {
+    .delete, .edit {
+      float: right;
       display: inline-block;
-    }
-    .edit {
       cursor: pointer;
       margin-left: 8px;
     }
@@ -30,6 +33,7 @@ class columnTitle extends HTMLElement {
     <div class="title">
       <h3>${column.title}</h3>
       <span class="edit">Edit</span>
+      <span class="delete">Delete</span>
     </div>
     <form style="display: none">
       <input type="text" value="${column.title}" placeholder="Title" name="title" required><br>
@@ -75,14 +79,36 @@ class columnTitle extends HTMLElement {
     titleInput.value = title;
   }
 
+  async deleteColumn(e) {
+    e.preventDefault();
+    const id = this.root.querySelector('input[name="id"]').value;
+
+    // DELETE card from server
+    const res = await fetch('http://localhost:3000/columns/' + id, { method: 'DELETE' });
+
+    if (res.ok) {
+      // Hide column element
+      let columnElement = this.parentNode;
+      columnElement.style.display = "none";
+    } else {
+      alert("Error ocurred");
+    }
+  }
+
   connectedCallback() { // Add event listeners once components are connected to DOM
+    // Toggle form listener
     const showButton = this.root.querySelector('.edit');
     const cancelButton = this.root.querySelector('input[value="Cancel"]');
     showButton.addEventListener('click', this.toggleForm, false);
     cancelButton.addEventListener('click', this.toggleForm, false);
 
+    // Submit form listener
     const form = this.root.querySelector('form');
     form.addEventListener('submit', this.handleSubmit, false);
+    
+    // Delete card listener
+    const deleteButton = this.root.querySelector('.delete');
+    deleteButton.addEventListener('click', this.deleteColumn, false);
   }
 }
 
