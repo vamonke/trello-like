@@ -1,4 +1,7 @@
-class Card extends HTMLElement {
+export default class Card extends HTMLElement {
+  static get tag() {
+    return "card-element";
+  }
   constructor() {
     super();
     this.root = this.attachShadow({ mode: "open" });
@@ -47,7 +50,7 @@ class Card extends HTMLElement {
     </article>
     <form style="display: none">
       <input type="hidden" value="${card.id}" name="id">
-      <input type="text" value=${card.title} name="title" placeholder="Title"  required><br>
+      <input type="text" value="${card.title}" name="title" placeholder="Title" required><br>
       <textarea name="description" placeholder="Description">${card.description}</textarea><br>
       <input type="hidden" value="${card.columnId}" name="columnId">
       <input type="button" value="Cancel"> <input type="submit" value="Save">
@@ -130,4 +133,4 @@ class Card extends HTMLElement {
   }
 }
 
-customElements.define("card-element", Card);
+customElements.define(Card.tag, Card);

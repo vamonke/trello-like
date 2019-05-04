@@ -24,12 +24,14 @@ describe("ColumnTitle", () => {
     });
     
     it("should send a PUT request on submit", () => {
+      // Stub fetch() API
       spyOn(window, 'fetch').and.returnValue({
         ok: true,
-        json: ()=>({ title: mock.title }),
+        json: () => mock,
       });
-      columnTitle.connectedCallback();
+      columnTitle.connectedCallback(); // Add eventListeners
       
+      // Trigger form submit event
       const form = columnTitle.root.querySelector('form');
       const submit = new Event('submit');
       form.dispatchEvent(submit);
@@ -42,7 +44,7 @@ describe("ColumnTitle", () => {
             Accept: 'application/json',
             'Content-Type': 'application/json'
           },
-          body: '{"title":"Column 1"}'
+          body: `{"title":"${mock.title}"}`
         }
       );
     });
@@ -54,7 +56,7 @@ describe("ColumnTitle", () => {
   });
 
   it("should have edit and cancel buttons that toggle display of form", () => {
-    columnTitle.connectedCallback();
+    columnTitle.connectedCallback();  // Add eventListeners
     const form = columnTitle.root.querySelector('form');
     const title = columnTitle.root.querySelector('.title');
     const editButton = columnTitle.root.querySelector('.edit');
@@ -74,8 +76,9 @@ describe("ColumnTitle", () => {
   });
 
   it("should send a DELETE request on clicking delete", () => {
-    spyOn(window, 'fetch');
-    columnTitle.connectedCallback();
+    spyOn(window, 'fetch'); // Stub fetch() API
+    columnTitle.connectedCallback(); // Add eventListeners
+
     const deleteButton = columnTitle.root.querySelector('.delete');
     expect(deleteButton).not.toBeNull();
     deleteButton.click();
