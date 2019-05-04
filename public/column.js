@@ -1,4 +1,7 @@
-class Column extends HTMLElement {
+export default class Column extends HTMLElement {
+  static get tag() {
+    return "column-element";
+  }
   constructor() {
     super();
     this.root = this.attachShadow({ mode: "open" });
@@ -44,4 +47,4 @@ class Column extends HTMLElement {
   }
 }
 
-customElements.define("column-element", Column);
+customElements.define(Column.tag, Column);
