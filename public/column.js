@@ -41,9 +41,9 @@ export default class Column extends HTMLElement {
 
 
     // Append new card form
-    let newCardElement = document.createElement('new-card');
-    newCardElement.newCard = { columnId: column.id };
-    section.appendChild(newCardElement);
+    let addCardElement = document.createElement('add-card');
+    addCardElement.addCard = { columnId: column.id };
+    section.appendChild(addCardElement);
   }
 }
 

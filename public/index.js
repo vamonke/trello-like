@@ -1,6 +1,6 @@
 import '/column.js';
 import '/card.js';
-import '/newCard.js';
+import '/addCard.js';
 import '/newColumn.js';
 import '/columnTitle.js';
 

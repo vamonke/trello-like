@@ -42,8 +42,8 @@ describe("Column", () => {
     expect(cards.length).toEqual(3);
   });
 
-  it("should have <card-new>", () => {
-    const newCard = column.root.querySelector('new-card');
-    expect(newCard).not.toBeNull();
+  it("should have <add-card>", () => {
+    const addCard = column.root.querySelector('add-card');
+    expect(addCard).not.toBeNull();
   });
 });

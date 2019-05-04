@@ -1,27 +1,27 @@
-import NewCard from "./newCard.js";
+import AddCard from "./addCard.js";
 
-describe("NewCard", () => {
-  let newCard;
+describe("AddCard", () => {
+  let addCard;
   const mock = { columnId: 1 };
 
   beforeEach(function() {
-    newCard = document.createElement(NewCard.tag);
-    newCard.newCard = mock;
+    addCard = document.createElement(AddCard.tag);
+    addCard.addCard = mock;
   });
 
   describe("Form", () => {  
     it("should have an input for title", () => {
-      const titleInput = newCard.root.querySelector('input[name="title"]');
+      const titleInput = addCard.root.querySelector('input[name="title"]');
       expect(titleInput).not.toBeNull();
     });
 
     it("should have a textarea for description", () => {
-      const descriptionInput = newCard.root.querySelector('textarea');
+      const descriptionInput = addCard.root.querySelector('textarea');
       expect(descriptionInput).not.toBeNull();
     });
       
     it("should have a hidden input for columnId", () => {      
-      const columnIdInput = newCard.root.querySelector('input[name="columnId"]');
+      const columnIdInput = addCard.root.querySelector('input[name="columnId"]');
       expect(columnIdInput).not.toBeNull();
       expect(columnIdInput.value).toEqual(mock.columnId + '');
     });
@@ -31,20 +31,20 @@ describe("NewCard", () => {
       const description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit.";
       const columnId = mock.columnId + '';
 
-      let titleInput = newCard.root.querySelector('input[name="title"]');
+      let titleInput = addCard.root.querySelector('input[name="title"]');
       titleInput.value = title;
 
-      let descriptionInput = newCard.root.querySelector('textarea');
+      let descriptionInput = addCard.root.querySelector('textarea');
       descriptionInput.value = description;
 
       // Stub fetch() API
       spyOn(window, 'fetch').and.returnValue({
         ok: true,
-        json: () => newCard,
+        json: () => addCard,
       });
-      newCard.connectedCallback(); // Add eventListeners
+      addCard.connectedCallback(); // Add eventListeners
       
-      const form = newCard.root.querySelector('form');
+      const form = addCard.root.querySelector('form');
       const submit = new Event('submit');
       form.dispatchEvent(submit);
 
@@ -63,10 +63,10 @@ describe("NewCard", () => {
   });
 
   it("should have edit and cancel buttons that toggle display of form", () => {
-    newCard.connectedCallback(); // Add eventListeners
-    const form = newCard.root.querySelector('form');
-    const showForm = newCard.root.querySelector('.showForm');
-    const cancelButton = newCard.root.querySelector('input[value="Cancel"]');
+    addCard.connectedCallback(); // Add eventListeners
+    const form = addCard.root.querySelector('form');
+    const showForm = addCard.root.querySelector('.showForm');
+    const cancelButton = addCard.root.querySelector('input[value="Cancel"]');
     
     expect(showForm).not.toBeNull();
     expect(cancelButton).not.toBeNull();

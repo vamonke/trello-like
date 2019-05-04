@@ -1,14 +1,14 @@
-export default class NewCard extends HTMLElement {
+export default class AddCard extends HTMLElement {
   static get tag() {
-    return "new-card";
+    return "add-card";
   }
   constructor() {
     super();
     this.root = this.attachShadow({ mode: "open" });
   }
-  set newCard(newCard) {
+  set addCard(addCard) {
     // Bind methods
-    this.addCard = this.addCard.bind(this);
+    this.createCard = this.createCard.bind(this);
     this.toggleForm = this.toggleForm.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     
@@ -38,20 +38,20 @@ export default class NewCard extends HTMLElement {
     <form style="display: none">
       <input type="text" placeholder="Title" name="title" required><br>
       <textarea placeholder="Description" name="description"></textarea><br>
-      <input type="hidden" value="${newCard.columnId}" name="columnId">
+      <input type="hidden" value="${addCard.columnId}" name="columnId">
       <input type="button" value="Cancel"> <input type="submit" value="Add">
     </form>`;
   }
   
-  toggleForm() { // Toggle display of form and 'Add new card' button
+  toggleForm() { // Toggle display of form and 'Add add card' button
     const form = this.root.querySelector('form');
     form.style.display = form.style.display === "none" ? "block" : "none";
     const showButton = this.root.querySelector('.showForm');
     showButton.style.display = showButton.style.display === "none" ? "block" : "none";
   }
 
-  async addCard(title, description, columnId) { // Add card to column
-    // POST new card to server
+  async createCard(title, description, columnId) { // Add card to column
+    // POST add card to server
     const res = await fetch('http://localhost:3000/cards', {
       method: 'POST',
       headers: {
@@ -61,7 +61,7 @@ export default class NewCard extends HTMLElement {
       body: JSON.stringify({ title, description, columnId })
     });
     if (res.ok) {
-      // Append newly created card
+      // Append addly created card
       const createdCard = await res.json();
       const cardElement = document.createElement('card-element');
       cardElement.card = createdCard;
@@ -77,7 +77,7 @@ export default class NewCard extends HTMLElement {
   async handleSubmit(e) { // On submission of form
     e.preventDefault();
 
-    // Get new card details
+    // Get add card details
     const titleInput = this.root.querySelector('input[name="title"]');
     const descriptionInput = this.root.querySelector('textarea[name="description"]');
     const columnIdInput = this.root.querySelector('input[name="columnId"]');
@@ -85,7 +85,7 @@ export default class NewCard extends HTMLElement {
     const description = descriptionInput.value;
     const columnId = columnIdInput.value;
 
-    await this.addCard(title, description, columnId);
+    await this.createCard(title, description, columnId);
     
     // Reset form
     this.toggleForm();
@@ -106,4 +106,4 @@ export default class NewCard extends HTMLElement {
   }
 }
 
-customElements.define(NewCard.tag, NewCard);
+customElements.define(AddCard.tag, AddCard);
