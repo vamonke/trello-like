@@ -1,4 +1,7 @@
-class NewColumn extends HTMLElement {
+export default class NewColumn extends HTMLElement {
+  static get tag() {
+    return "new-column";
+  }
   constructor() {
     super();
     this.root = this.attachShadow({ mode: "open" });
@@ -40,7 +43,6 @@ class NewColumn extends HTMLElement {
     <div class="showForm">Add a column</div>
     <form style="display: none">
       <input type="text" placeholder="Title" name="title" required><br>
-      <input type="hidden" value="${newColumn.columnId}" name="columnId">
       <input type="button" value="Cancel"> <input type="submit" value="Add">
     </form>`;
   }
@@ -95,4 +97,4 @@ class NewColumn extends HTMLElement {
   }
 }
 
-customElements.define("new-column", NewColumn);
+customElements.define(NewColumn.tag, NewColumn);
