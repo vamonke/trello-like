@@ -15,16 +15,16 @@ describe("Card", () => {
   });
 
   describe("Form", () => {  
-    it("should have a hidden input for id", () => {
-      const titleInput = card.root.querySelector('input[name="title"]');
-      expect(titleInput).not.toBeNull();
-      expect(titleInput.value).toEqual(mock.title);
-    });
-      
-    it("should have a input for title", () => {
+    it("should have an input for id", () => {
       const idInput = card.root.querySelector('input[name="id"]');
       expect(idInput).not.toBeNull();
       expect(idInput.value).toEqual(mock.id + '');
+    });
+
+    it("should have a input for title", () => {
+      const titleInput = card.root.querySelector('input[name="title"]');
+      expect(titleInput).not.toBeNull();
+      expect(titleInput.value).toEqual(mock.title);
     });
       
     it("should have a textarea for description", () => {
@@ -36,7 +36,7 @@ describe("Card", () => {
     it("should have a hidden input for columnId", () => {      
       const columnIdInput = card.root.querySelector('input[name="columnId"]');
       expect(columnIdInput).not.toBeNull();
-      expect(columnIdInput.value).toEqual(mock.id + '');
+      expect(columnIdInput.value).toEqual(mock.columnId + '');
     });
     
     it("should send a PUT request on submit", () => {

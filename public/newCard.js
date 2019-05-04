@@ -1,4 +1,7 @@
-class NewCard extends HTMLElement {
+export default class NewCard extends HTMLElement {
+  static get tag() {
+    return "new-card";
+  }
   constructor() {
     super();
     this.root = this.attachShadow({ mode: "open" });
@@ -91,14 +94,16 @@ class NewCard extends HTMLElement {
   }
 
   connectedCallback() { // Add event listeners once components are connected to DOM
+    // Toggle form listener
     const showButton = this.root.querySelector('.showForm');
     const cancelButton = this.root.querySelector('input[value="Cancel"]');
     showButton.addEventListener('click', this.toggleForm, false);
     cancelButton.addEventListener('click', this.toggleForm, false);
-
+    
+    // Submit form listener
     const form = this.root.querySelector('form');
     form.addEventListener('submit', this.handleSubmit, false);
   }
 }
 
-customElements.define("new-card", NewCard);
+customElements.define(NewCard.tag, NewCard);
