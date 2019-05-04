@@ -1,4 +1,7 @@
-class columnTitle extends HTMLElement {
+export default class columnTitle extends HTMLElement {
+  static get tag() {
+    return "column-title";
+  }
   constructor() {
     super();
     this.root = this.attachShadow({ mode: "open" });
@@ -43,10 +46,11 @@ class columnTitle extends HTMLElement {
   }
   
   toggleForm() { // Toggle display of form and 'Edit' button
+    // console.log('toggle');
     const form = this.root.querySelector('form');
     form.style.display = form.style.display === "none" ? "block" : "none";
-    const showButton = this.root.querySelector('.title');
-    showButton.style.display = showButton.style.display === "none" ? "inline-block" : "none";
+    const title = this.root.querySelector('.title');
+    title.style.display = title.style.display === "none" ? "inline-block" : "none";
   }
 
   async handleSubmit(e) { // On submission of form
@@ -58,7 +62,7 @@ class columnTitle extends HTMLElement {
 
     // PUT editted column to server
     const res = await fetch('http://localhost:3000/columns/' + id, {
-      method: 'put',
+      method: 'PUT',
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
@@ -112,4 +116,4 @@ class columnTitle extends HTMLElement {
   }
 }
 
-customElements.define("column-title", columnTitle);
+customElements.define(columnTitle.tag, columnTitle);
