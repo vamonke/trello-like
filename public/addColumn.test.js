@@ -1,32 +1,32 @@
-import NewColumn from "./newColumn.js";
+import AddColumn from "./addColumn.js";
 
-describe("NewColumn", () => {
-  let newColumn;
+describe("AddColumn", () => {
+  let addColumn;
 
   beforeEach(function() {
-    newColumn = document.createElement(NewColumn.tag);
-    newColumn.newColumn = {};
+    addColumn = document.createElement(AddColumn.tag);
+    addColumn.addColumn = {};
   });
 
   describe("Form", () => {  
     it("should have an input for title", () => {
-      const titleInput = newColumn.root.querySelector('input[name="title"]');
+      const titleInput = addColumn.root.querySelector('input[name="title"]');
       expect(titleInput).not.toBeNull();
     });
     
     it("should send a PUT request on submit", () => {
       const title = "Column 1";
-      let titleInput = newColumn.root.querySelector('input[name="title"]');
+      let titleInput = addColumn.root.querySelector('input[name="title"]');
       titleInput.value = title;
 
       // Stub fetch() API
       spyOn(window, 'fetch').and.returnValue({
         ok: true,
-        json: () => newColumn,
+        json: () => addColumn,
       });
-      newColumn.connectedCallback(); // Add eventListeners
+      addColumn.connectedCallback(); // Add eventListeners
       
-      const form = newColumn.root.querySelector('form');
+      const form = addColumn.root.querySelector('form');
       const submit = new Event('submit');
       form.dispatchEvent(submit);
 
@@ -45,10 +45,10 @@ describe("NewColumn", () => {
   });
 
   it("should have edit and cancel buttons that toggle display of form", () => {
-    newColumn.connectedCallback(); // Add eventListeners
-    const form = newColumn.root.querySelector('form');
-    const showForm = newColumn.root.querySelector('.showForm');
-    const cancelButton = newColumn.root.querySelector('input[value="Cancel"]');
+    addColumn.connectedCallback(); // Add eventListeners
+    const form = addColumn.root.querySelector('form');
+    const showForm = addColumn.root.querySelector('.showForm');
+    const cancelButton = addColumn.root.querySelector('input[value="Cancel"]');
     
     expect(showForm).not.toBeNull();
     expect(cancelButton).not.toBeNull();

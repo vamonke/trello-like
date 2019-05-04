@@ -1,14 +1,13 @@
-export default class NewColumn extends HTMLElement {
+export default class AddColumn extends HTMLElement {
   static get tag() {
-    return "new-column";
+    return "add-column";
   }
   constructor() {
     super();
     this.root = this.attachShadow({ mode: "open" });
   }
-  set newColumn(newColumn) {
+  set addColumn(addColumn) {
     // Bind methods
-    this.addColumn = newColumn.addColumn;
     this.toggleForm = this.toggleForm.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     
@@ -97,4 +96,4 @@ export default class NewColumn extends HTMLElement {
   }
 }
 
-customElements.define(NewColumn.tag, NewColumn);
+customElements.define(AddColumn.tag, AddColumn);
