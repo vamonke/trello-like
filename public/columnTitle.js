@@ -80,8 +80,6 @@ export default class columnTitle extends HTMLElement {
     if (newTitle !== this.title) {
       const allColumns = document.querySelectorAll('column-element');
       const allColumnTitles = Array.from(allColumns).map(column => column.title);
-      console.log(allColumnTitles);
-      console.log(newTitle);
       if (allColumnTitles.includes(newTitle)) {
         return alert("There is another column with the same title!");
       }
@@ -131,7 +129,6 @@ export default class columnTitle extends HTMLElement {
 
   connectedCallback() { // Add event listeners once components are connected to DOM
     // Toggle form listener
-    this.title;
     const editButton = this.root.querySelector('.editButton');
     const cancelButton = this.root.querySelector('input[value="Cancel"]');
     editButton.addEventListener('click', this.toggleForm, false);

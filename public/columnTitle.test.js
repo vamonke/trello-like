@@ -71,7 +71,7 @@ describe("ColumnTitle", () => {
     expect(title.style.display).toBe('none');
 
     cancelButton.click();
-    expect(title.style.display).toBe('inline-block');
+    expect(title.style.display).toBe('block');
     expect(form.style.display).toBe('none');
   });
 
