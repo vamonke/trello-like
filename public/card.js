@@ -12,14 +12,22 @@ export default class Card extends HTMLElement {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.editCard = this.editCard.bind(this);
     this.deleteCard = this.deleteCard.bind(this);
+    this.toggleDescription = this.toggleDescription.bind(this);
 
     this.root.innerHTML = `
     <style>
+    section {
+      position: relative;
+    }
     article {
+      cursor: pointer;
       background-color: #FFFFFF;
       padding: 8px;
       margin-top: 8px;
       overflow: auto;
+    }
+    article:hover {
+      background-color: #F2F2F2;
     }
     form {
       background-color: #FFFFFF;
@@ -35,26 +43,35 @@ export default class Card extends HTMLElement {
     textarea {
       min-height: 80px;
     }
+    .buttons {
+      position: absolute;
+      right: 8px;
+      top: 8px;
+      text-align: right;
+    }
     .deleteButton, .editButton {
       cursor: pointer;
       display: inline-block;
       margin-left: 10px;
-      float: right;
     }
     </style>
-    <article>
+    <section>
+      <article>
       <h3>${card.title}</h3>
-      <p>${card.description}</p>
-      <div class="editButton">Edit</div>
-      <div class="deleteButton">Delete</div>
-    </article>
-    <form style="display: none">
+      <p style="display: none">${card.description}</p>
+      </article>
+      <div class="buttons">
+        <div class="editButton">Edit</div>
+        <div class="deleteButton">Delete</div>
+        </div>
+      <form style="display: none">
       <input type="hidden" value="${card.id}" name="id">
       <input type="text" value="${card.title}" name="title" placeholder="Title" required><br>
       <textarea name="description" placeholder="Description">${card.description}</textarea><br>
       <input type="hidden" value="${card.columnId}" name="columnId">
       <input type="button" value="Cancel"> <input type="submit" value="Save">
-    </form>`;
+      </form>
+    </section>`;
   }
 
   async editCard(id, title, description, columnId) { // Edit card
@@ -77,11 +94,19 @@ export default class Card extends HTMLElement {
     }
   }
 
-  toggleForm() { // Toggle display of form and 'Add new card' button
+  toggleForm() { // Toggle display of form and buttons
     const form = this.root.querySelector('form');
     form.style.display = form.style.display === "none" ? "block" : "none";
+
     const card = this.root.querySelector('article');
+    const buttons = this.root.querySelector('.buttons');
     card.style.display = card.style.display === "none" ? "block" : "none";
+    buttons.style.display = buttons.style.display === "none" ? "block" : "none";
+  }
+
+  toggleDescription() { // Toggle display of description
+    const description = this.root.querySelector('p');
+    description.style.display = description.style.display === "none" ? "block" : "none";
   }
 
   async handleSubmit(e) { // On submission of form
@@ -130,6 +155,10 @@ export default class Card extends HTMLElement {
     // Delete card listener
     const deleteButton = this.root.querySelector('.deleteButton');
     deleteButton.addEventListener('click', this.deleteCard, false);
+
+    // Toggle description listener
+    const article = this.root.querySelector('article');
+    article.addEventListener('click', this.toggleDescription, false);
   }
 }
 

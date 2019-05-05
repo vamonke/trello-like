@@ -79,22 +79,41 @@ describe("Card", () => {
 
   it("should have edit and cancel buttons that toggle display of form", () => {
     card.connectedCallback(); // Add eventListeners
-    const form = card.root.querySelector('form');
     const article = card.root.querySelector('article');
-    const editButton = card.root.querySelector('.editButton');
+    const form = card.root.querySelector('form');
+    const buttons = card.root.querySelector('.buttons');
+    const editButton = buttons.querySelector('.editButton');
     const cancelButton = card.root.querySelector('input[value="Cancel"]');
     
     expect(editButton).not.toBeNull();
     expect(cancelButton).not.toBeNull();
     expect(form.style.display).toBe('none');
 
-    editButton.click();
+    editButton.click(); // Show form
     expect(article.style.display).toBe('none');
+    expect(buttons.style.display).toBe('none');
     expect(form.style.display).toBe('block');
 
-    cancelButton.click();
+    cancelButton.click(); // Hide form
     expect(article.style.display).toBe('block');
+    expect(buttons.style.display).toBe('block');
     expect(form.style.display).toBe('none');
+  });
+
+  it("should toggle display of description on clicking card", () => {
+    card.connectedCallback(); // Add eventListeners
+    const article = card.root.querySelector('article');
+    const description = article.querySelector('p');
+    
+    expect(article).not.toBeNull();
+    expect(description).not.toBeNull();
+    expect(description.style.display).toBe('none');
+
+    article.click(); // Open description
+    expect(description.style.display).toBe('block');
+
+    article.click(); // Close description
+    expect(description.style.display).toBe('none');
   });
 
   it("should send a DELETE request on clicking delete", () => {

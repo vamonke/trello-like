@@ -15,4 +15,4 @@ Go to http://localhost:3000/ to view the web application.
 - [x] delete a column
 - [ ] search for any keywords presents on one or multiple cards. The view should update without reloading the whole page
 - [ ] drag and drop a card from one column to another
-- [ ] click on a card to see its description. The description should be in the same view and extend the card container. It should not open in another page or popup/modal
+- [x] click on a card to see its description. The description should be in the same view and extend the card container. It should not open in another page or popup/modal
