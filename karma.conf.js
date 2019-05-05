@@ -5,7 +5,8 @@ module.exports = function(config) {
     files: [
       "node_modules/@webcomponents/webcomponentsjs/webcomponents-bundle.js",
       { pattern: "**/*.test.js", type: "module", included: true },
-      { pattern: "**/*.js", type: "module", included: false, served: true }
+      { pattern: "**/*.js", type: "module", included: false, served: true },
+      { pattern: "**/*.css", type: "module", included: false, served: true }
     ],
     exclude: [],
     preprocessors: {},
