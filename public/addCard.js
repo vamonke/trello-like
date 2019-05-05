@@ -89,10 +89,12 @@ export default class AddCard extends HTMLElement {
       const createdCard = await res.json();
       const cardElement = document.createElement('card-element');
       cardElement.card = createdCard;
-      let cardsContainer = this.parentNode.querySelector('.cards-container');
+      cardElement.setAttribute('title', createdCard.title);
+      cardElement.setAttribute('id', createdCard.id);
+      cardElement.setAttribute('description', createdCard.description);
+      cardElement.setAttribute('columnId', createdCard.columnId);
+      const cardsContainer = this.parentNode.querySelector('.cards-container');
       cardsContainer.appendChild(cardElement);
-      // let parentDiv = this.parentNode;
-      // parentDiv.insertBefore(cardElement, this);
     } else {
       alert("Error ocurred");
     }

@@ -84,6 +84,8 @@ export default class AddColumn extends HTMLElement {
       const createdColumn = await res.json();
       const columnElement = document.createElement('column-element');
       columnElement.column = createdColumn;
+      columnElement.setAttribute('title', createdColumn.title);
+      columnElement.setAttribute('id', createdColumn.id);
       let parentDiv = this.parentNode;
       parentDiv.insertBefore(columnElement, this);
     } else {
