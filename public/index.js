@@ -3,6 +3,7 @@ import '/card.js';
 import '/addCard.js';
 import '/addColumn.js';
 import '/columnTitle.js';
+import Search from '/search.js';
 
 window.addEventListener('load', () => {
   fetchColumns();
@@ -35,8 +36,14 @@ async function fetchColumns() {
   });
   await attachCards(columns);
 
-  // Render columns
   const main = document.querySelector('main');
+  
+  // Render search
+  let searchElement = document.createElement(Search.tag);
+  searchElement.search = {};
+  main.appendChild(searchElement);  
+
+  // Render columns
   const columnElements = columns.map(column => {
     const el = document.createElement('column-element');
     el.column = column;
