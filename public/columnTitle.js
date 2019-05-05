@@ -2,6 +2,15 @@ export default class columnTitle extends HTMLElement {
   static get tag() {
     return "column-title";
   }
+  get title() {
+    return this.getAttribute('title');
+  }
+  set title(title) {
+    const oldTitle = this.getAttribute('title');
+    const parentColumn = document.querySelector(`column-element[title="${oldTitle}"]`);
+    parentColumn.setAttribute('title', title);
+    this.setAttribute('title', title);
+  }
   constructor() {
     super();
     this.root = this.attachShadow({ mode: "open" });
@@ -53,41 +62,55 @@ export default class columnTitle extends HTMLElement {
   }
   
   toggleForm() { // Toggle display of form and 'Edit' button
-    // console.log('toggle');
     const form = this.root.querySelector('form');
-    form.style.display = form.style.display === "none" ? "block" : "none";
+    form.style.display = form.style.display === "none" ? "block" : "none";    
+    
     const title = this.root.querySelector('.title');
-    title.style.display = title.style.display === "none" ? "inline-block" : "none";
+    title.style.display = title.style.display === "none" ? "block" : "none";
+
+    const titleInput = this.root.querySelector('input[name="title"]');
+    titleInput.focus();    
   }
 
   async handleSubmit(e) { // On submission of form
     e.preventDefault();
     // Get new column title
     const titleInput = this.root.querySelector('input[name="title"]');
-    const title = titleInput.value;
-    const id = this.root.querySelector('input[name="id"]').value;
+    const newTitle = titleInput.value;
+    if (newTitle !== this.title) {
+      const allColumns = document.querySelectorAll('column-element');
+      const allColumnTitles = Array.from(allColumns).map(column => column.title);
+      console.log(allColumnTitles);
+      console.log(newTitle);
+      if (allColumnTitles.includes(newTitle)) {
+        return alert("There is another column with the same title!");
+      }
 
-    // PUT editted column to server
-    const res = await fetch('http://localhost:3000/columns/' + id, {
-      method: 'PUT',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ title })
-    });
+      const id = this.root.querySelector('input[name="id"]').value;
 
-    if (res.ok) {
-      // Update column element
-      const createdColumn = await res.json();
-      this.root.querySelector('h3').innerHTML = createdColumn.title;
-    } else {
-      alert("Error ocurred");
+      // PUT editted column to server
+      const res = await fetch('http://localhost:3000/columns/' + id, {
+        method: 'PUT',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ title: newTitle })
+      });
+      
+      if (res.ok) {
+        // Update column element
+        const createdColumn = await res.json();
+        this.root.querySelector('h3').innerHTML = createdColumn.title;
+        this.title = newTitle;
+        titleInput.value = newTitle;
+      } else {
+        alert("Error ocurred");
+      }
     }
     
     // Reset form
     this.toggleForm();
-    titleInput.value = title;
   }
 
   async deleteColumn(e) {
@@ -108,6 +131,7 @@ export default class columnTitle extends HTMLElement {
 
   connectedCallback() { // Add event listeners once components are connected to DOM
     // Toggle form listener
+    this.title;
     const editButton = this.root.querySelector('.editButton');
     const cancelButton = this.root.querySelector('input[value="Cancel"]');
     editButton.addEventListener('click', this.toggleForm, false);

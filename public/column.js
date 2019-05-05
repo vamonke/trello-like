@@ -31,6 +31,7 @@ export default class Column extends HTMLElement {
     // Append column title
     let columnTitle = document.createElement('column-title');
     columnTitle.columnTitle = column;
+    columnTitle.setAttribute('title', column.title);
     section.appendChild(columnTitle);
 
     // Append cards
@@ -58,7 +59,7 @@ export default class Column extends HTMLElement {
     }
 
     card.columnId = this.props.id;
-    if (this.props.cards.map(card => card.title).includes(card.title)) {
+    if (this.props.cards && this.props.cards.map(card => card.title).includes(card.title)) {
       return alert("There is another card with the same title in this column!");
     }
     
