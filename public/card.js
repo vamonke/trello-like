@@ -13,6 +13,9 @@ export default class Card extends HTMLElement {
     this.editCard = this.editCard.bind(this);
     this.deleteCard = this.deleteCard.bind(this);
     this.toggleDescription = this.toggleDescription.bind(this);
+    
+    this.dragStart = this.dragStart.bind(this);
+    this.props = card;
 
     this.root.innerHTML = `
     <style>
@@ -55,7 +58,7 @@ export default class Card extends HTMLElement {
       margin-left: 10px;
     }
     </style>
-    <section>
+    <section draggable="true">
       <article>
       <h3>${card.title}</h3>
       <p style="display: none">${card.description}</p>
@@ -141,6 +144,12 @@ export default class Card extends HTMLElement {
     }
   }
 
+  dragStart(e) {
+    // Add card details to the data transfer object
+    const data = JSON.stringify(this.props);
+    e.dataTransfer.setData('text/plain', data);
+  }
+  
   connectedCallback() { // Add event listeners once components are connected to DOM
     // Toggle form listener
     const editButton = this.root.querySelector('.editButton');
@@ -159,6 +168,10 @@ export default class Card extends HTMLElement {
     // Toggle description listener
     const article = this.root.querySelector('article');
     article.addEventListener('click', this.toggleDescription, false);
+
+    // Drag listener
+    const section = this.root.querySelector('section');
+    section.addEventListener('dragstart', this.dragStart, false);
   }
 }
 

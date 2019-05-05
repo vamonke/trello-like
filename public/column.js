@@ -7,6 +7,11 @@ export default class Column extends HTMLElement {
     this.root = this.attachShadow({ mode: "open" });
   }
   set column(column) {
+    // Bind methods
+    this.drop = this.drop.bind(this);
+    this.dragOver = this.dragOver.bind(this);
+    this.props = column;
+
     this.root.innerHTML = `
     <style>
       section {
@@ -43,6 +48,51 @@ export default class Column extends HTMLElement {
     let addCardElement = document.createElement('add-card');
     addCardElement.addCard = { columnId: column.id };
     section.appendChild(addCardElement);
+  }
+
+  async updateCard(card) {
+    if (card.columnId === this.props.id) {
+      // Do nothing if dragged into original column
+      return null;
+    }
+
+    card.columnId = this.props.id;
+    if (this.props.cards.map(card => card.title).includes(card.title)) {
+      return alert("There is another card with the same title in this column!");
+    }
+    
+    // PUT edited card to server
+    const res = await fetch('http://localhost:3000/cards/' + card.id, {
+      method: 'PUT',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(card)
+    });
+    if (res.ok) {
+      // TODO: Remove card from previous column and append card to new column
+      location.reload();
+    } else {
+      alert("Error ocurred");
+    }
+  }
+
+  drop(e) {
+    e.preventDefault();
+    const card = JSON.parse(e.dataTransfer.getData("text/plain"));
+    this.updateCard(card);
+  }
+
+  dragOver(e) {
+    e.preventDefault();
+  }
+
+  connectedCallback() { // Add event listeners once components are connected to DOM
+    // Drag listener
+    const section = this.root.querySelector('section');
+    section.addEventListener('drop', this.drop, false);
+    section.addEventListener('dragover', this.dragOver, false);
   }
 }
 
