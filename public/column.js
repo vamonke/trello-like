@@ -41,6 +41,7 @@ export default class Column extends HTMLElement {
       column.cards.forEach(card => {
         let cardElement = document.createElement('card-element');
         cardElement.card = card;
+        cardElement.setAttribute('title', card.title);
         cardsContainer.appendChild(cardElement);
       })
     }

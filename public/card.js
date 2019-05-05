@@ -1,10 +1,16 @@
 export default class Card extends HTMLElement {
-  static get tag() {
-    return "card-element";
-  }
   constructor() {
     super();
     this.root = this.attachShadow({ mode: "open" });
+  }
+  static get tag() {
+    return "card-element";
+  }
+  get title() {
+    return this.getAttribute('title');
+  }
+  set title(title) {
+    this.setAttribute('title', title);
   }
   set card(card) {
     // Bind methods
@@ -125,12 +131,17 @@ export default class Card extends HTMLElement {
     const descriptionInput = this.root.querySelector('textarea[name="description"]');
     const description = descriptionInput.value;
 
-    await this.editCard(id, title, description, Number(columnId));
-    
+    if (title !== this.title) {
+      const allCards = this.parentNode.querySelectorAll('card-element');
+      const allCardTitles = Array.from(allCards).map(card => card.title);
+      if (allCardTitles.includes(title)) {
+        return alert("There is another card with the same title!");
+      }  
+      await this.editCard(id, title, description, Number(columnId));
+    }
+
     // Reset form
     this.toggleForm();
-    titleInput.value = '';
-    descriptionInput.value = '';
   }
 
   async deleteCard(e) {

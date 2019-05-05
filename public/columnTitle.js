@@ -77,6 +77,7 @@ export default class columnTitle extends HTMLElement {
     // Get new column title
     const titleInput = this.root.querySelector('input[name="title"]');
     const newTitle = titleInput.value;
+    
     if (newTitle !== this.title) {
       const allColumns = document.querySelectorAll('column-element');
       const allColumnTitles = Array.from(allColumns).map(column => column.title);

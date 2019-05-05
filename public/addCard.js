@@ -109,6 +109,12 @@ export default class AddCard extends HTMLElement {
     const description = descriptionInput.value;
     const columnId = columnIdInput.value;
 
+    const allCards = this.parentNode.querySelectorAll('card-element');
+    const allCardTitles = Array.from(allCards).map(card => card.title);
+    if (allCardTitles.includes(title)) {
+      return alert("There is a card with the same title!");
+    }
+
     await this.createCard(title, description, columnId);
     
     // Reset form
