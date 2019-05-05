@@ -19,54 +19,57 @@ export default class Card extends HTMLElement {
 
     this.root.innerHTML = `
     <style>
-    section {
-      position: relative;
-    }
-    article {
-      cursor: pointer;
-      background-color: #FFFFFF;
-      padding: 8px;
-      margin-top: 8px;
-      overflow: auto;
-    }
-    article:hover {
-      background-color: #F2F2F2;
-    }
-    form {
-      background-color: #FFFFFF;
-      padding: 8px;
-      margin-top: 8px;
-    }
-    input[type="text"], textarea {
-      box-sizing: border-box;
-      margin-bottom: 8px;
-      width: 100%;
-      max-width: 100%;
-    }
-    textarea {
-      min-height: 80px;
-    }
-    .buttons {
-      position: absolute;
-      right: 8px;
-      top: 8px;
-      text-align: right;
-    }
-    .deleteButton, .editButton {
-      cursor: pointer;
-      display: inline-block;
-      margin-left: 10px;
-    }
+      @import "icons.css";
+      @import "form.css";
+      section {
+        position: relative;
+      }
+      article, form {
+        background-color: #FFFFFF;
+        border-radius: 3px;
+        padding: 12px;
+        margin-top: 12px;
+        
+        -webkit-box-shadow: 0px 2px 3px -1px rgba(0,0,0,0.25);
+        -moz-box-shadow: 0px 2px 3px -1px rgba(0,0,0,0.25);
+        box-shadow: 0px 2px 3px -1px rgba(0,0,0,0.25);
+      }
+      article {
+        cursor: pointer;
+        overflow: auto;
+      }
+      article:hover {
+        background-color: #F2F2F2;
+      }
+      h4 { /* Make space for buttons */
+        margin: 0 50px 0 0;
+      }
+      input[type="text"], textarea {
+        box-sizing: border-box;
+        margin-bottom: 8px;
+        width: 100%;
+        max-width: 100%;
+      }
+      textarea {
+        min-height: 80px;
+      }
+      .buttons {
+        position: absolute;
+        right: 10px;
+        top: 10px;
+        text-align: right;
+      }
     </style>
+    
     <section draggable="true">
       <article>
-      <h3>${card.title}</h3>
+      <h4>${card.title}</h4>
       <p style="display: none">${card.description}</p>
       </article>
       <div class="buttons">
-        <div class="editButton">Edit</div>
-        <div class="deleteButton">Delete</div>
-        </div>
+        <div class="deleteButton"></div>
+        <div class="editButton"></div>
+      </div>
       <form style="display: none">
       <input type="hidden" value="${card.id}" name="id">
       <input type="text" value="${card.title}" name="title" placeholder="Title" required><br>
@@ -90,7 +93,7 @@ export default class Card extends HTMLElement {
     if (res.ok) {
       // Update card element
       const updatedCard = await res.json();
-      this.root.querySelector('h3').innerHTML = updatedCard.title;
+      this.root.querySelector('h4').innerHTML = updatedCard.title;
       this.root.querySelector('p').innerHTML = updatedCard.description;
     } else {
       alert("Error ocurred");

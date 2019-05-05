@@ -12,21 +12,21 @@ export default class Search extends HTMLElement {
     this.cancel = this.cancel.bind(this);
 
     this.root.innerHTML = `
-    <style>
-    input[type="text"] {
-      box-sizing: border-box;
-      margin-bottom: 8px;
-      width: 200px;
-    }
-    textarea {
-      min-height: 80px;
-    }
-    </style>
-    <form>
-      <input type="text" name="keywords" placeholder="Search..">
-      <input type="submit" value="Search">
-      <input type="button" value="Cancel" style="display: none;">
-    </form>`;
+      <style>
+        @import "form.css";
+        input[type="text"] {
+          width: 300px;
+        }
+        input[value="Cancel"] {
+          color: white;
+        }
+      </style>
+      <form>
+        <input type="text" name="keywords" placeholder="Search..">
+        <input type="submit" value="Search">
+        <input type="button" value="Cancel" style="display: none;">
+      </form>
+    `;
   }
 
   cancel(e) {
@@ -61,7 +61,7 @@ export default class Search extends HTMLElement {
     allColumns.forEach(column => {
       const cards = column.root.querySelectorAll('card-element');
       cards.forEach(card => {
-        const title = card.root.querySelector('h3').innerHTML.toLowerCase();
+        const title = card.root.querySelector('h4').innerHTML.toLowerCase();
         const description = card.root.querySelector('p').innerHTML.toLowerCase();
         const found = regex.test(title) || regex.test(description);
         // console.log(found);

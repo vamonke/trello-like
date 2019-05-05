@@ -59,7 +59,7 @@ describe("ColumnTitle", () => {
     columnTitle.connectedCallback();  // Add eventListeners
     const form = columnTitle.root.querySelector('form');
     const title = columnTitle.root.querySelector('.title');
-    const editButton = columnTitle.root.querySelector('.edit');
+    const editButton = columnTitle.root.querySelector('.editButton');
     const cancelButton = columnTitle.root.querySelector('input[value="Cancel"]');
     
     expect(editButton).not.toBeNull();
@@ -79,7 +79,7 @@ describe("ColumnTitle", () => {
     spyOn(window, 'fetch'); // Stub fetch() API
     columnTitle.connectedCallback(); // Add eventListeners
 
-    const deleteButton = columnTitle.root.querySelector('.delete');
+    const deleteButton = columnTitle.root.querySelector('.deleteButton');
     expect(deleteButton).not.toBeNull();
     deleteButton.click();
     expect(window.fetch).toHaveBeenCalledWith('http://localhost:3000/columns/' + mock.id, { method: 'DELETE' });

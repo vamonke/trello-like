@@ -1,0 +1,35 @@
+form {
+  text-align: right;
+  
+}
+
+input, textarea {
+  box-sizing: border-box;
+  padding: 5px 8px;
+  border-radius: 3px;  
+  border: 0.5px solid rgb(169, 169, 169);
+  font-size: 16px;
+  font-family: 'Lato', sans-serif;
+}
+
+input[type="button"], input[type="submit"] {
+  margin-left: 8px;
+  padding: 5px 16px;
+  cursor: pointer;
+  border: none;
+  /* font-size: 14px;
+  line-height: 20.2px; */
+}
+
+input[value="Cancel"] {
+  background-color: transparent;
+  color: black;
+  border: none;
+}
+
+input[value="Save"], input[value="Add"] {
+  background-color: #1abc9c;
+  color: white;
+  border: none;
+}
+

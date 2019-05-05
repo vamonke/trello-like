@@ -12,38 +12,47 @@ export default class AddColumn extends HTMLElement {
     this.handleSubmit = this.handleSubmit.bind(this);
     
     this.root.innerHTML = `
-    <style>
-    form, .showForm {
-      vertical-align: top;
-      white-space: initial;
-      width: 300px;
-    }
-    form {
-      background-color: #DDDDDD;
-      padding: 8px;
-    }
-    input[type="text"] {
-      box-sizing: border-box;
-      margin-bottom: 8px;
-      width: 100%;
-      max-width: 100%;
-    }
-    textarea {
-      min-height: 80px;
-    }
-    .showForm {
-      background-color: #EEEEEE;
-      display: inline-block;
-      cursor: pointer;
-      padding: 50px 20px;
-      text-align: center;
-    }
-    </style>
-    <div class="showForm">Add a column</div>
-    <form style="display: none">
-      <input type="text" placeholder="Title" name="title" required><br>
-      <input type="button" value="Cancel"> <input type="submit" value="Add">
-    </form>`;
+      <style>
+        @import "form.css";
+        form, .showForm {
+          box-sizing: border-box;
+          vertical-align: top;
+          white-space: initial;
+          width: 300px;
+          border-radius: 5px;
+        }
+        form {
+          background-color: #DDDDDD;
+          padding: 8px;
+        }
+        input[type="text"] {
+          box-sizing: border-box;
+          margin-bottom: 8px;
+          width: 100%;
+          max-width: 100%;
+        }
+        textarea {
+          min-height: 80px;
+        }
+        .showForm {
+          background-color: transparent;
+          color: white;
+          border: 1px solid #CCC;
+          display: inline-block;
+          cursor: pointer;
+          padding: 30px 20px;
+          text-align: center;
+        }
+        .showForm:hover {
+          border-color: white;
+        }
+      </style>
+      <div class="showForm">Add a column</div>
+      <form style="display: none">
+        <input type="text" placeholder="Title" name="title" required><br>
+        <input type="button" value="Cancel"> <input type="submit" value="Add">
+      </form>
+    `;
   }
   
   toggleForm() { // Toggle display of form and 'Add new column' button
@@ -51,6 +60,7 @@ export default class AddColumn extends HTMLElement {
     form.style.display = form.style.display === "none" ? "inline-block" : "none";
     const showButton = this.root.querySelector('.showForm');
     showButton.style.display = showButton.style.display === "none" ? "inline-block" : "none";
+    form.querySelector('input[name="title"]').focus();
   }
 
   async handleSubmit(e) { // On submission of form

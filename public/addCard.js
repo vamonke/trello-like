@@ -13,34 +13,57 @@ export default class AddCard extends HTMLElement {
     this.handleSubmit = this.handleSubmit.bind(this);
     
     this.root.innerHTML = `
-    <style>
-    form {
-      background-color: #FFFFFF;
-      padding: 8px;
-      margin-top: 8px;
-    }
-    input[type="text"], textarea {
-      box-sizing: border-box;
-      margin-bottom: 8px;
-      width: 100%;
-      max-width: 100%;
-    }
-    textarea {
-      min-height: 80px;
-    }
-    .showForm {
-      cursor: pointer;
-      display: inline-block;
-      padding: 8px 8px 0;
-    }
-    </style>
-    <div class="showForm">Add a card</div>
-    <form style="display: none">
-      <input type="text" placeholder="Title" name="title" required><br>
-      <textarea placeholder="Description" name="description"></textarea><br>
-      <input type="hidden" value="${addCard.columnId}" name="columnId">
-      <input type="button" value="Cancel"> <input type="submit" value="Add">
-    </form>`;
+      <style>
+        @import "form.css";
+        form {
+          background-color: #FFFFFF;
+          border-radius: 3px;
+          padding: 12px;
+          margin-top: 12px;
+          
+          -webkit-box-shadow: 0px 2px 3px -1px rgba(0,0,0,0.25);
+          -moz-box-shadow: 0px 2px 3px -1px rgba(0,0,0,0.25);
+          box-shadow: 0px 2px 3px -1px rgba(0,0,0,0.25);
+        }
+        input[type="text"], textarea {
+          box-sizing: border-box;
+          margin-bottom: 8px;
+          width: 100%;
+          max-width: 100%;
+        }
+        textarea {
+          min-height: 80px;
+        }
+        .showForm {
+          max-width: 100px;
+          text-align: center;
+          margin: 13px auto 0;
+          left: 0;
+          right: 0;
+          cursor: pointer;
+          padding: 5px 8px;
+          opacity: 0.4;
+          position: relative;
+        }
+        .showForm:before {
+          font-family: "FontAwesome";
+          display: inline-block;
+          font-weight: 900;
+          margin-right: 5px;
+          content: "\\f067";
+        }
+        .showForm:hover {
+          opacity: 1;
+        }
+      </style>
+      <div class="showForm">Add a card</div>
+      <form style="display: none">
+        <input type="text" placeholder="Title" name="title" required><br>
+        <textarea placeholder="Description" name="description"></textarea><br>
+        <input type="hidden" value="${addCard.columnId}" name="columnId">
+        <input type="button" value="Cancel"> <input type="submit" value="Add">
+      </form>
+    `;
   }
   
   toggleForm() { // Toggle display of form and 'Add add card' button
@@ -48,6 +71,7 @@ export default class AddCard extends HTMLElement {
     form.style.display = form.style.display === "none" ? "block" : "none";
     const showButton = this.root.querySelector('.showForm');
     showButton.style.display = showButton.style.display === "none" ? "block" : "none";
+    form.querySelector('input[name="title"]').focus();
   }
 
   async createCard(title, description, columnId) { // Add card to column

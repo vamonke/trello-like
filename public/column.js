@@ -16,11 +16,12 @@ export default class Column extends HTMLElement {
     <style>
       section {
         white-space: initial;
-        background-color: #DDDDDD;
+        background-color: #E2E2E2;
         display: inline-block;
         vertical-align: top;
         width: 300px;
-        padding: 8px;
+        padding: 10px;
+        border-radius: 5px;
       }
     </style>
     <section></section>`;

@@ -1,0 +1,27 @@
+.deleteButton, .editButton {
+  position: relative;
+  cursor: pointer;
+  opacity: 0.3;
+  margin-left: 10px;
+  display: inline-block;
+}
+
+.deleteButton:hover, .editButton:hover {
+  opacity: 1;
+}
+
+.deleteButton:before, .editButton:before {
+  font-family: "FontAwesome";
+  display: inline-block;
+  vertical-align: middle;
+  font-weight: 900;
+}
+
+.deleteButton:before {
+  content: "\f1f8";
+}
+
+
+.editButton:before {
+  content: "\f040";
+}

@@ -70,7 +70,7 @@ describe("Card", () => {
   });
 
   it("should have title and description", () => {
-    const h3 = card.root.querySelector('h3');
+    const h3 = card.root.querySelector('h4');
     expect(h3.innerHTML).toBe(mock.title);
     
     const p = card.root.querySelector('p');

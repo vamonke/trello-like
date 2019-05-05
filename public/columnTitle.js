@@ -13,36 +13,43 @@ export default class columnTitle extends HTMLElement {
     this.deleteColumn = this.deleteColumn.bind(this);
     
     this.root.innerHTML = `
-    <style>
-    .title {
-      overflow: auto;
-    }
-    input[type="text"] {
-      box-sizing: border-box;
-      margin-bottom: 8px;
-      width: 100%;
-      max-width: 100%;
-    }
-    textarea {
-      min-height: 80px;
-    }
-    .delete, .edit {
-      float: right;
-      display: inline-block;
-      cursor: pointer;
-      margin-left: 8px;
-    }
-    </style>
-    <div class="title">
-      <h3>${column.title}</h3>
-      <span class="edit">Edit</span>
-      <span class="delete">Delete</span>
-    </div>
-    <form style="display: none">
-      <input type="text" value="${column.title}" placeholder="Title" name="title" required><br>
-      <input type="hidden" value="${column.id}" name="id">
-      <input type="button" value="Cancel"> <input type="submit" value="Save">
-    </form>`;
+      <style>
+        @import "icons.css";
+        @import "form.css";
+        .title {
+          overflow: auto;
+          padding: 5px 10px 0 5px;
+        }
+        h3 {
+          margin: 0;
+          float: left;
+        }
+        input[type="text"] {
+          box-sizing: border-box;
+          margin-bottom: 8px;
+          width: 100%;
+          max-width: 100%;
+        }
+        textarea {
+          min-height: 80px;
+        }
+        .buttons {
+          float: right;
+        }
+      </style>
+      <div class="title">
+        <h3>${column.title}</h3>
+        <div class="buttons">
+          <span class="deleteButton"></span>
+          <span class="editButton"></span>
+        </div>
+      </div>
+      <form style="display: none">
+        <input type="text" value="${column.title}" placeholder="Title" name="title" required><br>
+        <input type="hidden" value="${column.id}" name="id">
+        <input type="button" value="Cancel"> <input type="submit" value="Save">
+      </form>
+      `;
   }
   
   toggleForm() { // Toggle display of form and 'Edit' button
@@ -101,9 +108,9 @@ export default class columnTitle extends HTMLElement {
 
   connectedCallback() { // Add event listeners once components are connected to DOM
     // Toggle form listener
-    const showButton = this.root.querySelector('.edit');
+    const editButton = this.root.querySelector('.editButton');
     const cancelButton = this.root.querySelector('input[value="Cancel"]');
-    showButton.addEventListener('click', this.toggleForm, false);
+    editButton.addEventListener('click', this.toggleForm, false);
     cancelButton.addEventListener('click', this.toggleForm, false);
 
     // Submit form listener
@@ -111,7 +118,7 @@ export default class columnTitle extends HTMLElement {
     form.addEventListener('submit', this.handleSubmit, false);
     
     // Delete card listener
-    const deleteButton = this.root.querySelector('.delete');
+    const deleteButton = this.root.querySelector('.deleteButton');
     deleteButton.addEventListener('click', this.deleteColumn, false);
   }
 }

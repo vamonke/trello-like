@@ -2,6 +2,49 @@
   box-sizing: border-box;
 }
 
+body {
+  background-color: #34495e;
+  font-family: 'Lato', sans-serif;
+  margin: 20px;
+}
+
+h1 {
+  color: white;
+  margin-top: 0;
+  display: inline-block;
+}
+
 column-element, add-column {
   white-space: nowrap;
+  margin-right: 13px;
+}
+
+search-bar {
+  margin-left: 50px;
+  display: inline-block;
+  vertical-align: text-bottom;
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #2c3e50;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #CCC;
+  border-radius: 10px;
+  height: 10px;
+  margin: 1px 0;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #AAA; 
 }

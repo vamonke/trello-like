@@ -36,12 +36,13 @@ async function fetchColumns() {
   });
   await attachCards(columns);
 
-  const main = document.querySelector('main');
   
+  const main = document.querySelector('main');
   // Render search
   let searchElement = document.createElement(Search.tag);
   searchElement.search = {};
-  main.appendChild(searchElement);  
+  let parentDiv = main.parentNode;
+  parentDiv.insertBefore(searchElement, main);
 
   // Render columns
   const columnElements = columns.map(column => {
