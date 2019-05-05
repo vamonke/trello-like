@@ -48,6 +48,8 @@ export default class Column extends HTMLElement {
         cardElement.card = card;
         cardElement.setAttribute('title', card.title);
         cardElement.setAttribute('id', card.id);
+        cardElement.setAttribute('description', card.description);
+        cardElement.setAttribute('columnId', card.columnId);
         cardsContainer.appendChild(cardElement);
       })
     }
@@ -82,7 +84,7 @@ export default class Column extends HTMLElement {
       },
       body: JSON.stringify(card)
     });
-    
+
     if (res.ok) {
       // TODO: Remove card from previous column and append card to new column
       location.reload();

@@ -6,14 +6,23 @@ export default class Card extends HTMLElement {
   static get tag() {
     return "card-element";
   }
-  get title() {
-    return this.getAttribute('title');
-  }
   get id() {
     return this.getAttribute('id');
   }
+  get description() {
+    return this.getAttribute('description');
+  }
+  set description(description) {
+    this.setAttribute('description', description);
+  }
+  get title() {
+    return this.getAttribute('title');
+  }
   set title(title) {
     this.setAttribute('title', title);
+  }
+  get columnId() {
+    return this.getAttribute('columnId');
   }
   set card(card) {
     // Bind methods
@@ -71,8 +80,8 @@ export default class Card extends HTMLElement {
     
     <section draggable="true">
       <article>
-      <h4>${card.title}</h4>
-      <p style="display: none">${card.description}</p>
+        <h4>${card.title}</h4>
+        <p style="display: none">${card.description}</p>
       </article>
       <div class="buttons">
         <div class="deleteButton"></div>
@@ -101,9 +110,8 @@ export default class Card extends HTMLElement {
     if (res.ok) {
       // Update card element
       const updatedCard = await res.json();
-      this.title = title;
-      this.root.querySelector('h4').innerHTML = updatedCard.title;
-      this.root.querySelector('p').innerHTML = updatedCard.description;
+      this.title = updatedCard.title;
+      this.description = updatedCard.description;
     } else {
       alert("Error ocurred");
     }
@@ -121,7 +129,9 @@ export default class Card extends HTMLElement {
 
   toggleDescription() { // Toggle display of description
     const description = this.root.querySelector('p');
-    description.style.display = description.style.display === "none" ? "block" : "none";
+    if (description.textContent) {
+      description.style.display = description.style.display === "none" ? "block" : "none";
+    }
   }
 
   async handleSubmit(e) { // On submission of form
@@ -133,14 +143,17 @@ export default class Card extends HTMLElement {
     const title = titleInput.value;
     const descriptionInput = this.root.querySelector('textarea[name="description"]');
     const description = descriptionInput.value;
-
+    
     // Check for conflict with existing cards
-    const allCards = this.parentNode.querySelectorAll('card-element');
-    const allCardTitles = Array.from(allCards).map(card => card.title);
-    const otherCardTitles = allCardTitles.filter(title => title !== this.title);
-    if (otherCardTitles.includes(title)) {
-      return alert("There is another card with the same title!");
-    }  
+    if (this.parentNode) {
+      const allCards = this.parentNode.querySelectorAll('card-element');
+      const allCardTitles = Array.from(allCards).map(card => card.title);
+      const otherCardTitles = allCardTitles.filter(title => title !== this.title);
+      if (otherCardTitles.includes(title)) {
+        return alert("There is another card with the same title!");
+      }
+    }
+
     await this.editCard(id, title, description, Number(columnId));
 
     // Reset form
@@ -165,11 +178,28 @@ export default class Card extends HTMLElement {
     // Add card details to the data transfer object
     const data = JSON.stringify({
       id: this.id,
-      title: this.title
+      title: this.title,
+      description: this.description,
+      columnId: this.columnId
     });
     e.dataTransfer.setData('text/plain', data);
   }
   
+  static get observedAttributes() {
+    return ['title', 'description'];
+  }
+
+  attributeChangedCallback(name, oldValue, newValue) {
+    switch (name) {
+      case 'title':
+        this.root.querySelector('h4').innerHTML = newValue;
+        break;
+      case 'description':
+        this.root.querySelector('p').innerHTML = newValue;
+        break;
+    }
+  }
+
   connectedCallback() { // Add event listeners once components are connected to DOM
     // Toggle form listener
     const editButton = this.root.querySelector('.editButton');
