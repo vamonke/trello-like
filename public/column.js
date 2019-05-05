@@ -2,6 +2,12 @@ export default class Column extends HTMLElement {
   static get tag() {
     return "column-element";
   }
+  get title() {
+    return this.getAttribute('title');
+  }
+  get id() {
+    return this.getAttribute('id');
+  }
   constructor() {
     super();
     this.root = this.attachShadow({ mode: "open" });
@@ -10,7 +16,6 @@ export default class Column extends HTMLElement {
     // Bind methods
     this.drop = this.drop.bind(this);
     this.dragOver = this.dragOver.bind(this);
-    this.props = column;
 
     this.root.innerHTML = `
     <style>
@@ -42,6 +47,7 @@ export default class Column extends HTMLElement {
         let cardElement = document.createElement('card-element');
         cardElement.card = card;
         cardElement.setAttribute('title', card.title);
+        cardElement.setAttribute('id', card.id);
         cardsContainer.appendChild(cardElement);
       })
     }
@@ -54,17 +60,20 @@ export default class Column extends HTMLElement {
   }
 
   async updateCard(card) {
-    if (card.columnId === this.props.id) {
+    if (card.columnId === this.id) {
       // Do nothing if dragged into original column
       return null;
     }
 
-    card.columnId = this.props.id;
-    if (this.props.cards && this.props.cards.map(card => card.title).includes(card.title)) {
+    // Check for conflict with existing cards
+    const cards = this.shadowRoot.querySelectorAll('card-element');
+    const cardTitles = Array.from(cards).map(card => card.title);
+    if (cardTitles.includes(card.title)) {
       return alert("There is another card with the same title in this column!");
     }
     
     // PUT edited card to server
+    card.columnId = this.id;
     const res = await fetch('http://localhost:3000/cards/' + card.id, {
       method: 'PUT',
       headers: {
@@ -73,6 +82,7 @@ export default class Column extends HTMLElement {
       },
       body: JSON.stringify(card)
     });
+    
     if (res.ok) {
       // TODO: Remove card from previous column and append card to new column
       location.reload();

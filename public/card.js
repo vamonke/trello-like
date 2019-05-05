@@ -9,6 +9,9 @@ export default class Card extends HTMLElement {
   get title() {
     return this.getAttribute('title');
   }
+  get id() {
+    return this.getAttribute('id');
+  }
   set title(title) {
     this.setAttribute('title', title);
   }
@@ -21,7 +24,6 @@ export default class Card extends HTMLElement {
     this.toggleDescription = this.toggleDescription.bind(this);
     
     this.dragStart = this.dragStart.bind(this);
-    this.props = card;
 
     this.root.innerHTML = `
     <style>
@@ -99,6 +101,7 @@ export default class Card extends HTMLElement {
     if (res.ok) {
       // Update card element
       const updatedCard = await res.json();
+      this.title = title;
       this.root.querySelector('h4').innerHTML = updatedCard.title;
       this.root.querySelector('p').innerHTML = updatedCard.description;
     } else {
@@ -131,14 +134,14 @@ export default class Card extends HTMLElement {
     const descriptionInput = this.root.querySelector('textarea[name="description"]');
     const description = descriptionInput.value;
 
-    if (title !== this.title) {
-      const allCards = this.parentNode.querySelectorAll('card-element');
-      const allCardTitles = Array.from(allCards).map(card => card.title);
-      if (allCardTitles.includes(title)) {
-        return alert("There is another card with the same title!");
-      }  
-      await this.editCard(id, title, description, Number(columnId));
-    }
+    // Check for conflict with existing cards
+    const allCards = this.parentNode.querySelectorAll('card-element');
+    const allCardTitles = Array.from(allCards).map(card => card.title);
+    const otherCardTitles = allCardTitles.filter(title => title !== this.title);
+    if (otherCardTitles.includes(title)) {
+      return alert("There is another card with the same title!");
+    }  
+    await this.editCard(id, title, description, Number(columnId));
 
     // Reset form
     this.toggleForm();
@@ -160,7 +163,10 @@ export default class Card extends HTMLElement {
 
   dragStart(e) {
     // Add card details to the data transfer object
-    const data = JSON.stringify(this.props);
+    const data = JSON.stringify({
+      id: this.id,
+      title: this.title
+    });
     e.dataTransfer.setData('text/plain', data);
   }
   

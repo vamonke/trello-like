@@ -48,6 +48,7 @@ async function fetchColumns() {
   const columnElements = columns.map(column => {
     const el = document.createElement('column-element');
     el.setAttribute('title', column.title);
+    el.setAttribute('id', column.id);
     el.column = column;
     main.appendChild(el);
     return el;
